@@ -34,3 +34,12 @@ function shrinkBall(elBall) {
   if (diameter < 100) diameter = 100;
   setBall(elBall, diameter, getComputedStyle(elBall).backgroundColor);
 }
+
+function onResetClick() {
+  const elBalls = document.querySelectorAll(".ball1, .ball2");
+  elBalls.forEach((elBall) => {
+    elBall.removeAttribute("style");
+    elBall.innerText = 100;
+  });
+  document.body.removeAttribute("style");
+}
