@@ -34,3 +34,7 @@ function shrinkBall(elBall) {
   if (diameter < 100) diameter = 100;
   setBall(elBall, diameter, getComputedStyle(elBall).backgroundColor);
 }
+
+function onBgClick() {
+  document.body.style.backgroundColor = getRandomColor();
+}
