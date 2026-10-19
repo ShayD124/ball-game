@@ -19,3 +19,7 @@ h1 {
   background-color: tomato;
   transition: 1s;
 }
+
+.ball2 {
+  background-color: royalblue;
+}
