@@ -26,6 +26,9 @@ function render() {
     elBall.style.backgroundColor = ball.color;
   });
   document.body.style.backgroundColor = gState.bgColor;
+  document.querySelector(".undo-btn").disabled = gHistoryIdx === 0;
+  document.querySelector(".redo-btn").disabled =
+    gHistoryIdx === gHistory.length - 1;
 }
 
 function saveMove() {
@@ -103,3 +106,5 @@ function playBalls() {
   onSwapClick();
   onShrinkClick();
 }
+
+render();
