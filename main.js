@@ -23,3 +23,14 @@ function onSwapClick() {
   );
   setBall(elBall2, diameter1, color1);
 }
+
+function onShrinkClick() {
+  shrinkBall(document.querySelector(".ball1"));
+  shrinkBall(document.querySelector(".ball2"));
+}
+
+function shrinkBall(elBall) {
+  let diameter = parseInt(elBall.innerText) - getRandomInt(20, 60);
+  if (diameter < 100) diameter = 100;
+  setBall(elBall, diameter, getComputedStyle(elBall).backgroundColor);
+}
