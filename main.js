@@ -10,3 +10,16 @@ function setBall(elBall, diameter, color) {
   elBall.innerText = diameter;
   elBall.style.backgroundColor = color;
 }
+
+function onSwapClick() {
+  const elBall1 = document.querySelector(".ball1");
+  const elBall2 = document.querySelector(".ball2");
+  const diameter1 = elBall1.innerText;
+  const color1 = getComputedStyle(elBall1).backgroundColor;
+  setBall(
+    elBall1,
+    elBall2.innerText,
+    getComputedStyle(elBall2).backgroundColor,
+  );
+  setBall(elBall2, diameter1, color1);
+}
