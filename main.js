@@ -1,3 +1,6 @@
+let gHoverTimeout;
+let gAutoPlayInterval;
+
 function onBallClick(elBall, maxDiameter) {
   let diameter = parseInt(elBall.innerText) + getRandomInt(20, 60);
   if (diameter > maxDiameter) diameter = 100;
@@ -46,4 +49,24 @@ function onResetClick() {
     elBall.innerText = 100;
   });
   document.body.removeAttribute("style");
+}
+
+function onResetEnter() {
+  gHoverTimeout = setTimeout(startAutoPlay, 2000);
+}
+
+function onResetLeave() {
+  clearTimeout(gHoverTimeout);
+  clearInterval(gAutoPlayInterval);
+}
+
+function startAutoPlay() {
+  gAutoPlayInterval = setInterval(playBalls, 2000);
+}
+
+function playBalls() {
+  onBallClick(document.querySelector(".ball1"), 400);
+  onBallClick(document.querySelector(".ball2"), 250);
+  onSwapClick();
+  onShrinkClick();
 }
