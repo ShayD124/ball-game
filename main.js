@@ -1,55 +1,60 @@
+const INITIAL_STATE = {
+  balls: [
+    { diameter: 100, color: "tomato" },
+    { diameter: 100, color: "royalblue" },
+  ],
+  bgColor: "black",
+};
+
+let gState = structuredClone(INITIAL_STATE);
 let gHoverTimeout;
 let gAutoPlayInterval;
 let gCycleCount;
 
-function onBallClick(elBall, maxDiameter) {
-  let diameter = parseInt(elBall.innerText) + getRandomInt(20, 60);
-  if (diameter > maxDiameter) diameter = 100;
-  setBall(elBall, diameter, getRandomColor());
+function render() {
+  const elBalls = [
+    document.querySelector(".ball1"),
+    document.querySelector(".ball2"),
+  ];
+  gState.balls.forEach((ball, idx) => {
+    const elBall = elBalls[idx];
+    elBall.style.width = ball.diameter + "px";
+    elBall.style.height = ball.diameter + "px";
+    elBall.innerText = ball.diameter;
+    elBall.style.backgroundColor = ball.color;
+  });
+  document.body.style.backgroundColor = gState.bgColor;
 }
 
-function setBall(elBall, diameter, color) {
-  elBall.style.width = diameter + "px";
-  elBall.style.height = diameter + "px";
-  elBall.innerText = diameter;
-  elBall.style.backgroundColor = color;
+function onBallClick(ballIdx, maxDiameter) {
+  const ball = gState.balls[ballIdx];
+  ball.diameter += getRandomInt(20, 60);
+  if (ball.diameter > maxDiameter) ball.diameter = 100;
+  ball.color = getRandomColor();
+  render();
 }
 
 function onSwapClick() {
-  const elBall1 = document.querySelector(".ball1");
-  const elBall2 = document.querySelector(".ball2");
-  const diameter1 = elBall1.innerText;
-  const color1 = getComputedStyle(elBall1).backgroundColor;
-  setBall(
-    elBall1,
-    elBall2.innerText,
-    getComputedStyle(elBall2).backgroundColor,
-  );
-  setBall(elBall2, diameter1, color1);
+  gState.balls.reverse();
+  render();
 }
 
 function onShrinkClick() {
-  shrinkBall(document.querySelector(".ball1"));
-  shrinkBall(document.querySelector(".ball2"));
-}
-
-function shrinkBall(elBall) {
-  let diameter = parseInt(elBall.innerText) - getRandomInt(20, 60);
-  if (diameter < 100) diameter = 100;
-  setBall(elBall, diameter, getComputedStyle(elBall).backgroundColor);
+  gState.balls.forEach((ball) => {
+    ball.diameter -= getRandomInt(20, 60);
+    if (ball.diameter < 100) ball.diameter = 100;
+  });
+  render();
 }
 
 function onBgClick() {
-  document.body.style.backgroundColor = getRandomColor();
+  gState.bgColor = getRandomColor();
+  render();
 }
 
 function onResetClick() {
-  const elBalls = document.querySelectorAll(".ball1, .ball2");
-  elBalls.forEach((elBall) => {
-    elBall.removeAttribute("style");
-    elBall.innerText = 100;
-  });
-  document.body.removeAttribute("style");
+  gState = structuredClone(INITIAL_STATE);
+  render();
 }
 
 function onResetEnter() {
@@ -70,8 +75,8 @@ function playBalls() {
   gCycleCount++;
   if (gCycleCount === 10) clearInterval(gAutoPlayInterval);
 
-  onBallClick(document.querySelector(".ball1"), 400);
-  onBallClick(document.querySelector(".ball2"), 250);
+  onBallClick(0, 400);
+  onBallClick(1, 250);
   onSwapClick();
   onShrinkClick();
 }
