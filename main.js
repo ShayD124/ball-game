@@ -38,3 +38,12 @@ function shrinkBall(elBall) {
 function onBgClick() {
   document.body.style.backgroundColor = getRandomColor();
 }
+
+function onResetClick() {
+  const elBalls = document.querySelectorAll(".ball1, .ball2");
+  elBalls.forEach((elBall) => {
+    elBall.removeAttribute("style");
+    elBall.innerText = 100;
+  });
+  document.body.removeAttribute("style");
+}
