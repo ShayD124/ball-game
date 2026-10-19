@@ -1,5 +1,6 @@
 let gHoverTimeout;
 let gAutoPlayInterval;
+let gCycleCount;
 
 function onBallClick(elBall, maxDiameter) {
   let diameter = parseInt(elBall.innerText) + getRandomInt(20, 60);
@@ -61,10 +62,14 @@ function onResetLeave() {
 }
 
 function startAutoPlay() {
+  gCycleCount = 0;
   gAutoPlayInterval = setInterval(playBalls, 2000);
 }
 
 function playBalls() {
+  gCycleCount++;
+  if (gCycleCount === 10) clearInterval(gAutoPlayInterval);
+
   onBallClick(document.querySelector(".ball1"), 400);
   onBallClick(document.querySelector(".ball2"), 250);
   onSwapClick();
