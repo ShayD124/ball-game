@@ -7,6 +7,8 @@ const INITIAL_STATE = {
 };
 
 let gState = structuredClone(INITIAL_STATE);
+let gHistory = [structuredClone(gState)];
+let gHistoryIdx = 0;
 let gHoverTimeout;
 let gAutoPlayInterval;
 let gCycleCount;
@@ -26,17 +28,38 @@ function render() {
   document.body.style.backgroundColor = gState.bgColor;
 }
 
+function saveMove() {
+  gHistory = gHistory.slice(0, gHistoryIdx + 1);
+  gHistory.push(structuredClone(gState));
+  gHistoryIdx++;
+  render();
+}
+
+function onUndo() {
+  if (gHistoryIdx === 0) return;
+  gHistoryIdx--;
+  gState = structuredClone(gHistory[gHistoryIdx]);
+  render();
+}
+
+function onRedo() {
+  if (gHistoryIdx === gHistory.length - 1) return;
+  gHistoryIdx++;
+  gState = structuredClone(gHistory[gHistoryIdx]);
+  render();
+}
+
 function onBallClick(ballIdx, maxDiameter) {
   const ball = gState.balls[ballIdx];
   ball.diameter += getRandomInt(20, 60);
   if (ball.diameter > maxDiameter) ball.diameter = 100;
   ball.color = getRandomColor();
-  render();
+  saveMove();
 }
 
 function onSwapClick() {
   gState.balls.reverse();
-  render();
+  saveMove();
 }
 
 function onShrinkClick() {
@@ -44,17 +67,17 @@ function onShrinkClick() {
     ball.diameter -= getRandomInt(20, 60);
     if (ball.diameter < 100) ball.diameter = 100;
   });
-  render();
+  saveMove();
 }
 
 function onBgClick() {
   gState.bgColor = getRandomColor();
-  render();
+  saveMove();
 }
 
 function onResetClick() {
   gState = structuredClone(INITIAL_STATE);
-  render();
+  saveMove();
 }
 
 function onResetEnter() {

@@ -6,6 +6,10 @@ h1 {
   color: white;
 }
 
+.controls {
+  text-align: center;
+}
+
 .ball {
   display: flex;
   justify-content: center;
