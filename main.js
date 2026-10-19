@@ -1,3 +1,5 @@
+let diameter = parseInt(elBall.innerText) + getRandomInt(20, 60);
+
 function onBallClick(elBall) {
   let diameter = parseInt(elBall.innerText) + 50;
   if (diameter > 400) diameter = 100;
