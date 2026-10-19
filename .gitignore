@@ -1,0 +1,12 @@
+# Personal notes
+my-notes.txt
+
+# Exercise PDF
+*.pdf
+
+# Windows system files
+Thumbs.db
+desktop.ini
+
+# Editor settings
+.vscode/
