@@ -43,3 +43,8 @@ h1 {
 .ball6 {
   background-color: white;
 }
+
+.timer {
+  color: white;
+  margin-inline-start: 10px;
+}

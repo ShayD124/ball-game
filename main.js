@@ -13,6 +13,7 @@ let gHoverTimeout;
 let gAutoPlayInterval;
 let gCycleCount;
 let gMoveCount = 0;
+let gTimerInterval;
 
 function render() {
   const elBalls = [
@@ -32,7 +33,22 @@ function render() {
     gHistoryIdx === gHistory.length - 1;
 }
 
+function startTimer() {
+  const startTime = Date.now();
+  gTimerInterval = setInterval(() => {
+    const seconds = Math.floor((Date.now() - startTime) / 1000);
+    document.querySelector(".timer").innerText = formatTime(seconds);
+  }, 1000);
+}
+
+function formatTime(seconds) {
+  const min = String(Math.floor(seconds / 60)).padStart(2, "0");
+  const sec = String(seconds % 60).padStart(2, "0");
+  return `${min}:${sec}`;
+}
+
 function saveMove() {
+  if (!gTimerInterval) startTimer();
   gHistory = gHistory.slice(0, gHistoryIdx + 1);
   gHistory.push(structuredClone(gState));
   gHistoryIdx++;
