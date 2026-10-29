@@ -12,6 +12,7 @@ let gHistoryIdx = 0;
 let gHoverTimeout;
 let gAutoPlayInterval;
 let gCycleCount;
+let gMoveCount = 0;
 
 function render() {
   const elBalls = [
@@ -35,7 +36,9 @@ function saveMove() {
   gHistory = gHistory.slice(0, gHistoryIdx + 1);
   gHistory.push(structuredClone(gState));
   gHistoryIdx++;
+  gMoveCount++;
   render();
+  document.title = `The Ball Game (${gMoveCount} moves)`;
 }
 
 function onUndo() {
